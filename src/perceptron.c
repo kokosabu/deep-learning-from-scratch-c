@@ -2,22 +2,24 @@
 
 int AND(double x1, double x2)
 {
-    double w1;
-    double w2;
-    double theta;
+    double x[2];
+    static const double w[] = {0.5, 0.5};
+    static const double b = -0.7;
     double tmp;
+    int i;
 
-    w1 = 0.5;
-    w2 = 0.5;
-    theta = 0.7;
+    x[0] = x1;
+    x[1] = x2;
 
-    tmp = x1*w1 + x2*w2;
+    tmp = 0;
+    for(i = 0; i < (sizeof(w)/sizeof(w[0])); i++) {
+        tmp += w[i] * x[i];
+    }
+    tmp += b;
 
-    if(tmp <= theta) {
+    if(tmp <= 0) {
         return 0;
-    } else if(tmp > theta) {
+    } else {
         return 1;
     }
-
-    return -1;
 }
