@@ -25,3 +25,11 @@ void test_OR(void)
     cut_assert(OR(1, 1) == 1);
 }
 
+void test_XOR(void)
+{
+    cut_assert(XOR(0, 0) == 0);
+    cut_assert(XOR(1, 0) == 1);
+    cut_assert(XOR(0, 1) == 1);
+    cut_assert(XOR(1, 1) == 0);
+}
+
