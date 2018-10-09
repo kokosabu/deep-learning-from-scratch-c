@@ -16,5 +16,5 @@ target_link_libraries(test_perceptron ${CUTTER_LIBRARIES})
 add_library(test_activation SHARED test-activation.c ${CMAKE_SOURCE_DIR}/src/activation.c)
 target_include_directories(test_activation PUBLIC ${CUTTER_INCLUDE_DIRS})
 target_include_directories(test_activation PUBLIC ${CMAKE_SOURCE_DIR}/src)
-target_link_libraries(test_activation ${CUTTER_LIBRARIES})
+target_link_libraries(test_activation ${CUTTER_LIBRARIES} m)
 

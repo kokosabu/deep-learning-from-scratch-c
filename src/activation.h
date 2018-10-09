@@ -1,5 +1,6 @@
 #ifndef __ACTIVATION_H
 
-int step_function(double x);
+double step_function(double x);
+double sigmoid(double x);
 
 #endif /* __ACTIVATION_H */
