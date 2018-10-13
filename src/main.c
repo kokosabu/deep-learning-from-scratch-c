@@ -1,6 +1,43 @@
 #include <stdio.h>
 #include <activation.h>
 
+#define dot(a, x, w, row, col)\
+    {\
+        int i;\
+        int j;\
+        for(i = 0; i < (row); i++) {\
+            (a)[i] = 0;\
+            for(j = 0; j < (col); j++) {\
+                (a)[i] += w[j][i] * x[j];\
+            }\
+        }\
+    }
+
+void add_array(double dst[], double src[], size_t s)
+{
+    int i;
+    for(i = 0; i < s; i++) {
+        dst[i] += src[i];
+    }
+}
+
+void array_pinrt(double a[], size_t s)
+{
+    int i;
+    for(i = 0; i < s; i++) {
+        printf("%f ", a[i]);
+    }
+    printf("\n");
+}
+
+void activation_array(double dst[], double src[], double (*funcp)(double x), size_t s)
+{
+    int i;
+    for(i = 0; i < s; i++) {
+        dst[i] = funcp(src[i]);
+    }
+}
+
 int main()
 {
     double X[2] = {1.0, 0.5};
@@ -17,69 +54,24 @@ int main()
     double A3[2];
     double Y[2];
     
-    int i;
-    int j;
-    double a;
+    dot(A1, X, W1, 3, 2);
+    add_array(A1, B1, sizeof(A1)/sizeof(A1[0]));
+    activation_array(Z1, A1, sigmoid, sizeof(Z1)/sizeof(Z1[0]));
 
-    for(i = 0; i < 3; i++) {
-        a = 0;
-        for(j = 0; j < 2; j++) {
-            a += W1[j][i] * X[j];
-        }
-        a += B1[i];
-        A1[i] = a;
-        Z1[i] = sigmoid(A1[i]);
-    }
+    dot(A2, Z1, W2, 2, 3);
+    add_array(A2, B2, sizeof(A2)/sizeof(A2[0]));
+    activation_array(Z2, A2, sigmoid, sizeof(Z2)/sizeof(Z2[0]));
 
-    for(i = 0; i < 2; i++) {
-        a = 0;
-        for(j = 0; j < 3; j++) {
-            a += W2[j][i] * Z1[j];
-        }
-        a += B2[i];
-        A2[i] = a;
-        Z2[i] = sigmoid(A2[i]);
-    }
+    dot(A3, Z2, W3, 2, 2);
+    add_array(A3, B3, sizeof(A3)/sizeof(A3[0]));
+    activation_array(Y, A3, identity_function, sizeof(Y)/sizeof(Y[0]));
 
-    for(i = 0; i < 2; i++) {
-        a = 0;
-        for(j = 0; j < 2; j++) {
-            a += W3[j][i] * Z2[j];
-        }
-        a += B3[i];
-        A3[i] = a;
-        Y[i] = A3[i];
-    }
-
-    for(i = 0; i < 3; i++) {
-        printf("%f ", A1[i]);
-    }
-    printf("\n");
-
-    for(i = 0; i < 3; i++) {
-        printf("%f ", Z1[i]);
-    }
-    printf("\n");
-
-    for(i = 0; i < 2; i++) {
-        printf("%f ", A2[i]);
-    }
-    printf("\n");
-
-    for(i = 0; i < 2; i++) {
-        printf("%f ", Z2[i]);
-    }
-    printf("\n");
-
-    for(i = 0; i < 2; i++) {
-        printf("%f ", A3[i]);
-    }
-    printf("\n");
-
-    for(i = 0; i < 2; i++) {
-        printf("%f ", Y[i]);
-    }
-    printf("\n");
+    array_pinrt(A1, sizeof(A1)/sizeof(A1[0]));
+    array_pinrt(Z1, sizeof(Z1)/sizeof(Z1[0]));
+    array_pinrt(A2, sizeof(A2)/sizeof(A2[0]));
+    array_pinrt(Z2, sizeof(Z2)/sizeof(Z2[0]));
+    array_pinrt(A3, sizeof(A3)/sizeof(A3[0]));
+    array_pinrt(Y, sizeof(Y)/sizeof(Y[0]));
 
     return 0;
 }
