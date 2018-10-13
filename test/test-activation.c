@@ -27,3 +27,11 @@ void test_relu(void)
     cut_assert(relu(0.1) == 0.1);
     cut_assert(relu(5)   == 5.0);
 }
+
+void test_identity_function(void)
+{
+    cut_assert(identity_function(-5)  == -5);
+    cut_assert(identity_function(0)   == 0);
+    cut_assert(identity_function(0.1) == 0.1);
+    cut_assert(identity_function(5)   == 5);
+}

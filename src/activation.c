@@ -23,3 +23,8 @@ double relu(double x)
         return x;
     }
 }
+
+double identity_function(double x)
+{
+    return x;
+}
