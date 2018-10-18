@@ -139,14 +139,16 @@ void encode_bitmap(FILE *output, IMAGEINFO *image_info, RGBTRIPLE ***output_imag
 
 int main()
 {
-    FILE *train_set;
+    FILE *train_images;
+    FILE *train_labels;
     FILE *bitmap;
     uint32_t magic_number;
     uint32_t images;
     uint32_t rows;
     uint32_t columns;
+    uint32_t items;
     uint8_t **pixels;
-    uint8_t pixel;
+    uint8_t label;
     IMAGEINFO image_info;
     RGBTRIPLE **output_image_data;
     int i;
@@ -154,17 +156,18 @@ int main()
     int k;
 
     // @build folder
-    train_set = fopen("../dataset/train-images-idx3-ubyte", "r");
+    train_images = fopen("../dataset/train-images-idx3-ubyte", "r");
+    train_labels = fopen("../dataset/train-labels-idx1-ubyte", "r");
 
     bitmap = fopen("./test.bmp", "w");
 
-    magic_number = read_4bytes(train_set);
+    magic_number = read_4bytes(train_images);
     assert(magic_number == 0x00000803);
-    images = read_4bytes(train_set);
+    images = read_4bytes(train_images);
     assert(images == 60000);
-    rows = read_4bytes(train_set);
+    rows = read_4bytes(train_images);
     assert(rows == 28);
-    columns = read_4bytes(train_set);
+    columns = read_4bytes(train_images);
     assert(columns == 28);
 
     output_image_data = (RGBTRIPLE **)malloc(sizeof(RGBTRIPLE *) * columns);
@@ -175,14 +178,14 @@ int main()
     pixels = (uint8_t **)malloc(sizeof(uint8_t *) * images);
     for(i = 0; i < images; i++) {
         pixels[i] = (uint8_t *)malloc(sizeof(uint8_t) * (rows*columns));
+        fread(pixels[i], 1, rows*columns, train_images);
     }
 
     for(j = 0; j < columns; j++) {
         for(k = 0; k < rows; k++) {
-            fread(&pixel, 1, 1, train_set);
-            output_image_data[j][k].rgbtRed = pixel;
-            output_image_data[j][k].rgbtGreen = pixel;
-            output_image_data[j][k].rgbtBlue = pixel;
+            output_image_data[j][k].rgbtRed   = pixels[1][(j*rows) + k];
+            output_image_data[j][k].rgbtGreen = pixels[1][(j*rows) + k];
+            output_image_data[j][k].rgbtBlue  = pixels[1][(j*rows) + k];
             output_image_data[j][k].rgbtAlpha = 255;
         }
     }
@@ -192,7 +195,17 @@ int main()
     image_info.width = rows;
     encode_bitmap(bitmap, &image_info, &output_image_data);
 
-    fclose(train_set);
+    magic_number = read_4bytes(train_labels);
+    assert(magic_number == 0x00000801);
+    items = read_4bytes(train_labels);
+    assert(items == 60000);
+
+    fread(&label, 1, 1, train_labels);
+    printf("%d\n", label);
+
+    fclose(train_images);
+    fclose(train_labels);
+    fclose(bitmap);
 
     return 0;
 }
