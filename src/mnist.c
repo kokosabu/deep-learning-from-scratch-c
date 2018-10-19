@@ -137,18 +137,35 @@ void encode_bitmap(FILE *output, IMAGEINFO *image_info, RGBTRIPLE ***output_imag
     }
 }
 
+void read_labels(uint8_t **labels)
+{
+    FILE *labels_data;
+    uint32_t magic_number;
+    uint32_t items;
+
+    labels_data = fopen("../dataset/train-labels-idx1-ubyte", "r");
+
+    magic_number = read_4bytes(labels_data);
+    assert(magic_number == 0x00000801);
+    items = read_4bytes(labels_data);
+
+    *labels = (uint8_t *)malloc(sizeof(uint8_t) * items);
+
+    fread((*labels), 1, items, labels_data);
+
+    fclose(labels_data);
+}
+
 int main()
 {
     FILE *train_images;
-    FILE *train_labels;
     FILE *bitmap;
     uint32_t magic_number;
     uint32_t images;
     uint32_t rows;
     uint32_t columns;
-    uint32_t items;
     uint8_t **pixels;
-    uint8_t label;
+    uint8_t *labels;
     IMAGEINFO image_info;
     RGBTRIPLE **output_image_data;
     int i;
@@ -157,7 +174,6 @@ int main()
 
     // @build folder
     train_images = fopen("../dataset/train-images-idx3-ubyte", "r");
-    train_labels = fopen("../dataset/train-labels-idx1-ubyte", "r");
 
     bitmap = fopen("./test.bmp", "w");
 
@@ -195,16 +211,14 @@ int main()
     image_info.width = rows;
     encode_bitmap(bitmap, &image_info, &output_image_data);
 
-    magic_number = read_4bytes(train_labels);
-    assert(magic_number == 0x00000801);
-    items = read_4bytes(train_labels);
-    assert(items == 60000);
+    read_labels(&labels);
+    printf("%d\n", labels[0]);
+    printf("%d\n", labels[1]);
+    printf("%d\n", labels[2]);
+    printf("%d\n", labels[3]);
 
-    fread(&label, 1, 1, train_labels);
-    printf("%d\n", label);
 
     fclose(train_images);
-    fclose(train_labels);
     fclose(bitmap);
 
     return 0;
