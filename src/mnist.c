@@ -138,14 +138,13 @@ void encode_bitmap(FILE *output, IMAGEINFO *image_info, RGBTRIPLE ***output_imag
     }
 }
 
-void read_labels(uint8_t **labels)
+void read_labels(uint8_t **labels, char *filename)
 {
     FILE *labels_data;
     uint32_t magic_number;
     uint32_t items;
 
-    // @build folder
-    labels_data = fopen("../dataset/train-labels-idx1-ubyte", "r");
+    labels_data = fopen(filename, "r");
 
     magic_number = read_4bytes(labels_data);
     assert(magic_number == 0x00000801);
@@ -158,7 +157,7 @@ void read_labels(uint8_t **labels)
     fclose(labels_data);
 }
 
-void read_images(uint8_t ***pixels)
+void read_images(uint8_t ***pixels, char *filename)
 {
     FILE *images_data;
     uint32_t magic_number;
@@ -167,13 +166,12 @@ void read_images(uint8_t ***pixels)
     uint32_t columns;
     int i;
 
-    // @build folder
-    images_data = fopen("../dataset/train-images-idx3-ubyte", "r");
+    images_data = fopen(filename, "r");
 
     magic_number = read_4bytes(images_data);
     assert(magic_number == 0x00000803);
     images = read_4bytes(images_data);
-    assert(images == 60000);
+    //assert(images == 60000);
     rows = read_4bytes(images_data);
     assert(rows == 28);
     columns = read_4bytes(images_data);
@@ -190,8 +188,10 @@ void read_images(uint8_t ***pixels)
 
 int main()
 {
-    uint8_t **pixels;
-    uint8_t *labels;
+    uint8_t **train_pixels;
+    uint8_t *train_labels;
+    uint8_t **test_pixels;
+    uint8_t *test_labels;
 #if 0
     FILE *bitmap;
     IMAGEINFO image_info;
@@ -205,8 +205,11 @@ int main()
     int j;
     int k;
 
-    read_images(&pixels);
-    read_labels(&labels);
+    // @build folder
+    read_images(&train_pixels, "../dataset/train-images-idx3-ubyte");
+    read_labels(&train_labels, "../dataset/train-labels-idx1-ubyte");
+    read_images(&test_pixels,  "../dataset/t10k-images-idx3-ubyte");
+    read_labels(&test_labels,  "../dataset/t10k-labels-idx1-ubyte");
 
     images  = 60000;
     rows    = 28;
@@ -215,7 +218,7 @@ int main()
     for(i = 0; i < 1; i++) {
         for(j = 0; j < columns; j++) {
             for(k = 0; k < rows; k++) {
-                printf("%4d ", pixels[0][(j*rows)+k]);
+                printf("%4d ", test_pixels[0][(j*rows)+k]);
             }
             printf("\n");
         }
@@ -223,7 +226,7 @@ int main()
     for(i = 0; i < 1; i++) {
         for(j = 0; j < columns; j++) {
             for(k = 0; k < rows; k++) {
-                printf("%.2f ", (double)pixels[0][(j*rows)+k] / (double)255);
+                printf("%.2f ", (double)test_pixels[0][(j*rows)+k] / (double)255);
             }
             printf("\n");
         }
