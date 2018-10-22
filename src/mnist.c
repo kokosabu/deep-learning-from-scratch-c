@@ -157,7 +157,7 @@ void read_labels(uint8_t **labels, char *filename)
     fclose(labels_data);
 }
 
-void read_images(uint8_t ***pixels, char *filename)
+void read_images(uint8_t ***pixels, double ***pixels_normalize, char *filename, int flag)
 {
     FILE *images_data;
     uint32_t magic_number;
@@ -165,6 +165,7 @@ void read_images(uint8_t ***pixels, char *filename)
     uint32_t rows;
     uint32_t columns;
     int i;
+    int j;
 
     images_data = fopen(filename, "r");
 
@@ -183,6 +184,16 @@ void read_images(uint8_t ***pixels, char *filename)
         fread((*pixels)[i], 1, rows*columns, images_data);
     }
 
+    if(flag == 1) {
+        *pixels_normalize = (double **)malloc(sizeof(double *) * images);
+        for(i = 0; i < images; i++) {
+            (*pixels_normalize)[i] = (double *)malloc(sizeof(double) * (rows*columns));
+            for(j = 0; j < (rows*columns); j++) {
+                (*pixels_normalize)[i][j] = (double)(*pixels)[i][j] / (double)255;
+            }
+        }
+    }
+
     fclose(images_data);
 }
 
@@ -192,6 +203,8 @@ int main()
     uint8_t *train_labels;
     uint8_t **test_pixels;
     uint8_t *test_labels;
+    double **train_pixels_normalize;
+    double **test_pixels_normalize;
 #if 0
     FILE *bitmap;
     IMAGEINFO image_info;
@@ -206,9 +219,9 @@ int main()
     int k;
 
     // @build folder
-    read_images(&train_pixels, "../dataset/train-images-idx3-ubyte");
+    read_images(&train_pixels, NULL, "../dataset/train-images-idx3-ubyte", 0);
     read_labels(&train_labels, "../dataset/train-labels-idx1-ubyte");
-    read_images(&test_pixels,  "../dataset/t10k-images-idx3-ubyte");
+    read_images(&test_pixels,  &test_pixels_normalize, "../dataset/t10k-images-idx3-ubyte", 1);
     read_labels(&test_labels,  "../dataset/t10k-labels-idx1-ubyte");
 
     images  = 60000;
