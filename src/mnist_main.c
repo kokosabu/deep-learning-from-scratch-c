@@ -140,9 +140,9 @@ int main()
     int k;
 
     // @build folder
-    read_images(&train_pixels, NULL, "../dataset/train-images-idx3-ubyte", 0);
+    read_images(&train_pixels, NULL, "train-images-idx3-ubyte", 0);
     read_labels(&train_labels, "../dataset/train-labels-idx1-ubyte");
-    read_images(&test_pixels,  &test_pixels_normalize, "../dataset/t10k-images-idx3-ubyte", 1);
+    read_images(&test_pixels,  &test_pixels_normalize, "t10k-images-idx3-ubyte", 1);
     read_labels(&test_labels,  "../dataset/t10k-labels-idx1-ubyte");
 
     images  = 60000;
