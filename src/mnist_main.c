@@ -124,7 +124,7 @@ int main()
     uint8_t *train_labels;
     uint8_t **test_pixels;
     uint8_t *test_labels;
-    double **train_pixels_normalize;
+    //double **train_pixels_normalize;
     double **test_pixels_normalize;
 #if 0
     FILE *bitmap;
@@ -139,11 +139,10 @@ int main()
     int j;
     int k;
 
-    // @build folder
     read_images(&train_pixels, NULL, "train-images-idx3-ubyte", 0);
-    read_labels(&train_labels, "../dataset/train-labels-idx1-ubyte");
+    read_labels(&train_labels, "train-labels-idx1-ubyte");
     read_images(&test_pixels,  &test_pixels_normalize, "t10k-images-idx3-ubyte", 1);
-    read_labels(&test_labels,  "../dataset/t10k-labels-idx1-ubyte");
+    read_labels(&test_labels,  "t10k-labels-idx1-ubyte");
 
     images  = 60000;
     rows    = 28;

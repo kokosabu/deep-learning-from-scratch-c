@@ -27,12 +27,23 @@ void read_labels(uint8_t **labels, char *filename)
     FILE *labels_data;
     uint32_t magic_number;
     uint32_t items;
+    char current_dir[128] = "./";
+    //char wget_command[128] = "wget http://yann.lecun.com/exdb/mnist/";
+    char wget_command[128] = "curl -O http://yann.lecun.com/exdb/mnist/";
+    char gunzip_command[128] = "gunzip ./";
+    char filename2[128];
 
-    labels_data = fopen(filename, "r");
+    labels_data = fopen(strcat(current_dir, filename), "r");
 
     if(labels_data == NULL) {
         fprintf(stderr, "File Not Found\n");
-        exit(-1);
+        strcpy(filename2, filename);
+        system(strcat(strcat(wget_command, filename), ".gz"));
+        system(strcat(strcat(gunzip_command, filename2), ".gz"));
+        labels_data = fopen(current_dir, "r");
+        if(labels_data == NULL) {
+            exit(-1);
+        }
     }
 
     magic_number = read_4bytes(labels_data);
@@ -55,24 +66,21 @@ void read_images(uint8_t ***pixels, double ***pixels_normalize, char *filename, 
     uint32_t columns;
     int i;
     int j;
-    char dir[128] = "../dataset/";
+    char current_dir[128] = "./";
     //char wget_command[128] = "wget http://yann.lecun.com/exdb/mnist/";
     char wget_command[128] = "curl -O http://yann.lecun.com/exdb/mnist/";
     char gunzip_command[128] = "gunzip ./";
     char filename2[128];
-    char filename3[128];
-    char dir2[128] = "./";
 
     //images_data = fopen(filename, "r");
-    images_data = fopen(strcat(dir, filename), "r");
+    images_data = fopen(strcat(current_dir, filename), "r");
 
     if(images_data == NULL) {
         fprintf(stderr, "File Not Found\n");
         strcpy(filename2, filename);
-        strcpy(filename3, filename);
         system(strcat(strcat(wget_command, filename), ".gz"));
         system(strcat(strcat(gunzip_command, filename2), ".gz"));
-        images_data = fopen(strcat(dir2, filename3), "r");
+        images_data = fopen(current_dir, "r");
         if(images_data == NULL) {
             exit(-1);
         }
