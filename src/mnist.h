@@ -1,4 +1,5 @@
 #ifndef __MNIST_H
+#define __MNIST_H
 
 #include <stdint.h>
 

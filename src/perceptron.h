@@ -1,4 +1,5 @@
 #ifndef __PERCEPTRON_H
+#define __PERCEPTRON_H
 
 int AND(double x1, double x2);
 int NAND(double x1, double x2);

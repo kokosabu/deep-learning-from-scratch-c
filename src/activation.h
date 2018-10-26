@@ -1,4 +1,5 @@
 #ifndef __ACTIVATION_H
+#define __ACTIVATION_H
 
 #include <stddef.h>
 
