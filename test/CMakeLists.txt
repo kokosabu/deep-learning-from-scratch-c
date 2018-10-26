@@ -18,3 +18,7 @@ target_include_directories(test_activation PUBLIC ${CUTTER_INCLUDE_DIRS})
 target_include_directories(test_activation PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_activation ${CUTTER_LIBRARIES} m)
 
+add_library(test_loss SHARED test-loss.c ${CMAKE_SOURCE_DIR}/src/loss.c)
+target_include_directories(test_loss PUBLIC ${CUTTER_INCLUDE_DIRS})
+target_include_directories(test_loss PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_loss ${CUTTER_LIBRARIES} m)
