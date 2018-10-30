@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <activation.h>
+#include <stdlib.h>
+#include <time.h>
 
 #define dot(a, x, w, row, col)\
     {\
@@ -38,6 +40,25 @@ void activation_array(double dst[], double src[], double (*funcp)(double x), siz
     }
 }
 
+void random_choice(int **indexes, int train_size, int batch_size)
+{
+    static int rand_flag = 0;
+    int i;
+
+    if(rand_flag == 0) {
+        srand((unsigned int)time(NULL));
+        rand_flag = 1;
+    }
+
+    if(*indexes == NULL) {
+        *indexes = (int *)malloc(sizeof(int) * batch_size);
+    }
+
+    for(i = 0; i < batch_size; i++) {
+        (*indexes)[i] = rand()%train_size;
+    }
+}
+
 int main()
 {
     double X[2] = {1.0, 0.5};
@@ -53,6 +74,9 @@ int main()
     double B3[2] = {0.1, 0.2};
     double A3[2];
     double Y[2];
+
+    int *indexes;
+    int i;
     
     dot(A1, X, W1, 3, 2);
     add_array(A1, B1, sizeof(A1)/sizeof(A1[0]));
@@ -72,6 +96,13 @@ int main()
     array_pinrt(Z2, sizeof(Z2)/sizeof(Z2[0]));
     array_pinrt(A3, sizeof(A3)/sizeof(A3[0]));
     array_pinrt(Y, sizeof(Y)/sizeof(Y[0]));
+
+
+    indexes = NULL;
+    random_choice(&indexes, 60000, 10);
+    for(i = 0; i < 10; i++) {
+        printf("[%d] %d\n", i, indexes[i]);
+    }
 
     return 0;
 }
