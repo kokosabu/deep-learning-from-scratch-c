@@ -29,3 +29,16 @@ double cross_entropy_error(double *y, double *t, size_t s)
 
     return loss;
 }
+
+double numerical_diff(double (*f)(double), double x)
+{
+    double h;
+
+    h = 1e-4;
+    return (f(x+h) - f(x-h)) / (2*h);
+}
+
+double function_1(double x)
+{
+    return 0.01*pow(x, 2) + 0.1*x;
+}

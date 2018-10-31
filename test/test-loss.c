@@ -24,3 +24,11 @@ void test_cross_entropy_error(void)
     cut_assert(cross_entropy_error(y2, t, sizeof(y2)/sizeof(y2[0])) >= 2.3025);
     cut_assert(cross_entropy_error(y2, t, sizeof(y2)/sizeof(y2[0])) <= 2.3026);
 }
+
+void test_numerical_diff(void)
+{
+    cut_assert(numerical_diff(function_1, 5)  >= 0.1999);
+    cut_assert(numerical_diff(function_1, 5)  <= 0.2000);
+    cut_assert(numerical_diff(function_1, 10) >= 0.2999);
+    cut_assert(numerical_diff(function_1, 10) <= 0.3000);
+}
