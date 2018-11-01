@@ -42,3 +42,18 @@ double function_1(double x)
 {
     return 0.01*pow(x, 2) + 0.1*x;
 }
+
+double numerical_gradient(double (*f)(double *), double *x)
+{
+    double h;
+    double grad;
+
+    h = 1e-4;
+
+    return grad;
+}
+
+double function_2(double *x)
+{
+    return pow(x[0], 2) + pow(x[1], 2);
+}
