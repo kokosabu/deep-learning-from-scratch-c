@@ -1,5 +1,6 @@
 #include <loss.h>
 #include <math.h>
+#include <stdlib.h>
 
 double mean_squared_error(double *y, double *t, size_t s)
 {
@@ -43,14 +44,30 @@ double function_1(double x)
     return 0.01*pow(x, 2) + 0.1*x;
 }
 
-double numerical_gradient(double (*f)(double *), double *x)
+void numerical_gradient(double **grad, double (*f)(double *), double *x, size_t s)
 {
     double h;
-    double grad;
+    double tmp_val;
+    double fxh1;
+    double fxh2;
+    int idx;
 
     h = 1e-4;
 
-    return grad;
+    *grad = (double *)malloc(sizeof(double) * s);
+
+    for(idx = 0; idx < s; idx++) {
+        tmp_val = x[idx];
+
+        x[idx] = tmp_val + h;
+        fxh1 = f(x);
+
+        x[idx] = tmp_val - h;
+        fxh2 = f(x);
+
+        (*grad)[idx] = (fxh1 - fxh2) / (2*h);
+        x[idx] = tmp_val;
+    }
 }
 
 double function_2(double *x)
