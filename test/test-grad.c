@@ -42,3 +42,12 @@ void test_numerical_gradient(void)
     free((void *)grad);
 }
 
+void test_gradient_descent(void)
+{
+    double init_x[] = {-3.0, 4.0};
+    double *x;
+    gradient_descent(&x, function_2, init_x, sizeof(init_x)/sizeof(init_x[0]), 0.1, 100);
+
+    printf("%.12f %.12f\n", x[0], x[1]);
+    //cut_assert(x[0]
+}

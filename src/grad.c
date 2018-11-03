@@ -46,3 +46,22 @@ double function_2(double *x)
     return pow(x[0], 2) + pow(x[1], 2);
 }
 
+void gradient_descent(double **x, double (*f)(double *), double *init_x, size_t s, double lr, int step_num)
+{
+    int i;
+    int j;
+    double *grad;
+
+    *x = (double *)malloc(sizeof(double) * s);
+    for(i = 0; i < s; i++) {
+        (*x)[i] = init_x[i];
+    }
+
+    for(i = 0; i < step_num; i++) {
+        numerical_gradient(&grad, f, *x, s);
+        for(j = 0; j < s; j++) {
+            (*x)[j] -= lr * grad[j];
+        }
+        free((void *)grad);
+    }
+}
