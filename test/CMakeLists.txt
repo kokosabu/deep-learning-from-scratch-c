@@ -22,3 +22,8 @@ add_library(test_loss SHARED test-loss.c ${CMAKE_SOURCE_DIR}/src/loss.c)
 target_include_directories(test_loss PUBLIC ${CUTTER_INCLUDE_DIRS})
 target_include_directories(test_loss PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_loss ${CUTTER_LIBRARIES} m)
+
+add_library(test_grad SHARED test-grad.c ${CMAKE_SOURCE_DIR}/src/grad.c)
+target_include_directories(test_grad PUBLIC ${CUTTER_INCLUDE_DIRS})
+target_include_directories(test_grad PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_grad ${CUTTER_LIBRARIES} m)
