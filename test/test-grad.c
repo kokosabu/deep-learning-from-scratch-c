@@ -46,8 +46,25 @@ void test_gradient_descent(void)
 {
     double init_x[] = {-3.0, 4.0};
     double *x;
-    gradient_descent(&x, function_2, init_x, sizeof(init_x)/sizeof(init_x[0]), 0.1, 100);
 
-    printf("%.12f %.12f\n", x[0], x[1]);
-    //cut_assert(x[0]
+    gradient_descent(&x, function_2, init_x, sizeof(init_x)/sizeof(init_x[0]), 0.1, 100);
+    cut_assert(x[0] >= -6.2e-10);
+    cut_assert(x[0] <= -6.0e-10);
+    cut_assert(x[1] >= 8.0e-10);
+    cut_assert(x[1] <= 8.2e-10);
+    free((void *)x);
+
+    gradient_descent(&x, function_2, init_x, sizeof(init_x)/sizeof(init_x[0]), 10.0, 100);
+    cut_assert(x[0] >= -2.59e+13);
+    cut_assert(x[0] <= -2.58e+13);
+    cut_assert(x[1] >= -1.30e+12);
+    cut_assert(x[1] <= -1.29e+12);
+    free((void *)x);
+
+    gradient_descent(&x, function_2, init_x, sizeof(init_x)/sizeof(init_x[0]), 1e-10, 100);
+    cut_assert(x[0] >= -2.99999995);
+    cut_assert(x[0] <= -2.99999993);
+    cut_assert(x[1] >= 3.99999991);
+    cut_assert(x[1] <= 3.99999993);
+    free((void *)x);
 }
