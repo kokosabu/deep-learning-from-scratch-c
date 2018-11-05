@@ -19,6 +19,7 @@ static int output_size;
 static double weight_init_std;
 static int loss_flag;
 
+#if 0
 static void activation_array(double dst[], double src[], double (*funcp)(double x), size_t s)
 {
     int i;
@@ -26,6 +27,7 @@ static void activation_array(double dst[], double src[], double (*funcp)(double 
         dst[i] = funcp(src[i]);
     }
 }
+#endif
 
 void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _weight_init_std)
 {
@@ -93,7 +95,6 @@ void predict(double ***y, double **x, size_t x_size)
     double **a2;
 
     // a1 = np.dot(x, W1) + b1
-    // a1[100][100] = x[100][784(input_size)], W1[784(input_size)][100(hidden_size)], b1[100]
     a1 = (double **)malloc(sizeof(double *) * x_size);
     for(i = 0; i < x_size; i++) {
         a1[i] = (double *)malloc(sizeof(double) * hidden_size);
@@ -111,7 +112,9 @@ void predict(double ***y, double **x, size_t x_size)
         z1[i] = (double *)malloc(sizeof(double) * hidden_size);
         for(j = 0; j < hidden_size; j++) {
             z1[i][j] = sigmoid(a1[i][j]);
-            printf("%d %d: %f\n", i, j, z1[i][j]);
+            if(i==0 && j==0) {
+                printf("%d %d: %f -> %f\n", i, j, a1[i][j], z1[i][j]);
+            }
         }
     }
 
@@ -137,7 +140,7 @@ void predict(double ***y, double **x, size_t x_size)
 
 double loss(double **x, double *t)
 {
-    double *z;
+    //double *z;
     double **y;
     static double d;
     int i;
