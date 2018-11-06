@@ -2,5 +2,7 @@
 #define __SIMPLE_NET_H
 
 void simpleNet(void);
+void predict(double **p, double *x);
+double loss(double *x, double *t);
 
 #endif
