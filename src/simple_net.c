@@ -49,3 +49,8 @@ double loss(double *x, double *t)
     softmax(y, z, 3);
     return cross_entropy_error(y, t, 3);
 }
+
+double **get_W(void)
+{
+    return W;
+}
