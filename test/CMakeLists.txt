@@ -31,7 +31,8 @@ target_link_libraries(test_grad ${CUTTER_LIBRARIES} m)
 add_library(test_simple_net SHARED test-simple_net.c
     ${CMAKE_SOURCE_DIR}/src/simple_net.c
     ${CMAKE_SOURCE_DIR}/src/loss.c
-    ${CMAKE_SOURCE_DIR}/src/activation.c)
+    ${CMAKE_SOURCE_DIR}/src/activation.c
+    ${CMAKE_SOURCE_DIR}/src/grad.c)
 target_include_directories(test_simple_net PUBLIC ${CUTTER_INCLUDE_DIRS})
 target_include_directories(test_simple_net PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_simple_net ${CUTTER_LIBRARIES})
