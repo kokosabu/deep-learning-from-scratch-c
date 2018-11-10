@@ -1,4 +1,4 @@
-#include <simple_net.h>
+#include <two_layer_net.h>
 #include <stdlib.h>
 #include <time.h>
 #include <activation.h>
@@ -8,12 +8,21 @@ static double **W1;
 static double **W2;
 static double *b1;
 static double *b2;
+static int input_size;
+static int hidden_size;
+static int output_size;
+static double weight_init_std;
 
-void TwoLayerNet(int input_size, int hidden_size, int output_size, double weight_init_std)
+void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _weight_init_std)
 {
     static int flag = 0;
     int i;
     int j;
+
+    input_size = _input_size;
+    hidden_size = _hidden_size;
+    output_size = _output_size;
+    weight_init_std = _weight_init_std;
 
     if(flag == 0) {
         flag = 1;
@@ -47,21 +56,37 @@ void TwoLayerNet(int input_size, int hidden_size, int output_size, double weight
     }
 }
 
-#if 0
-void predict(double **p, double *x)
+void predict(double **y, double **x, size_t x_size)
 {
     int i;
     int j;
+    int k;
+    double **a1;
 
-    *p = (double *)malloc(sizeof(double) * 3);
-    for(i = 0; i < 3; i++) {
-        (*p)[i] = 0;
-        for(j = 0; j < 2; j++) {
-            (*p)[i] += W[j][i] * x[j];
+    // a1 = np.dot(x, W1) + b1
+    // a1[100][100] = x[100][784(input_size)], W1[784(input_size)][100(hidden_size)], b1[100]
+    a1 = (double **)malloc(sizeof(double *) * x_size);
+    for(i = 0; i < x_size; i++) {
+        a1[i] = (double *)malloc(sizeof(double) * hidden_size);
+        for(j = 0; j < hidden_size; j++) {
+            a1[i][j] = 0;
+            for(k = 0; k < input_size; k++) {
+                a1[i][j] += x[j][k] * W1[k][i] + b1[j];
+            }
         }
     }
+
+    // z1 = sigmoid(a1)
+    // z1[100][100], a1[100][100]
+
+    // a2 = np.dot(z1, W2) + b2
+    // a2[100][10] = z1[100][100], W2[100][10], b2[10]
+
+    // y = softmax(a2)
+
 }
 
+#if 0
 double loss(double *x, double *t)
 {
     double *z;
