@@ -13,6 +13,14 @@ static int hidden_size;
 static int output_size;
 static double weight_init_std;
 
+static void activation_array(double dst[], double src[], double (*funcp)(double x), size_t s)
+{
+    int i;
+    for(i = 0; i < s; i++) {
+        dst[i] = funcp(src[i]);
+    }
+}
+
 void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _weight_init_std)
 {
     static int flag = 0;
@@ -56,12 +64,14 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
     }
 }
 
-void predict(double **y, double **x, size_t x_size)
+void predict(double ***y, double **x, size_t x_size)
 {
     int i;
     int j;
     int k;
     double **a1;
+    double **z1;
+    double **a2;
 
     // a1 = np.dot(x, W1) + b1
     // a1[100][100] = x[100][784(input_size)], W1[784(input_size)][100(hidden_size)], b1[100]
@@ -78,24 +88,57 @@ void predict(double **y, double **x, size_t x_size)
 
     // z1 = sigmoid(a1)
     // z1[100][100], a1[100][100]
+    z1 = (double **)malloc(sizeof(double *) * x_size);
+    for(i = 0; i < x_size; i++) {
+        z1[i] = (double *)malloc(sizeof(double) * hidden_size);
+        for(j = 0; j < hidden_size; j++) {
+            z1[i][j] = sigmoid(a1[i][j]);
+        }
+    }
 
     // a2 = np.dot(z1, W2) + b2
     // a2[100][10] = z1[100][100], W2[100][10], b2[10]
+    a2 = (double **)malloc(sizeof(double *) * hidden_size);
+    for(i = 0; i < hidden_size; i++) {
+        a2[i] = (double *)malloc(sizeof(double) * output_size);
+        for(j = 0; j < output_size; j++) {
+            a2[i][j] = 0;
+            for(k = 0; k < x_size; k++) {
+                a2[i][j] += z1[j][k] * W2[k][i] + b2[j];
+            }
+        }
+    }
 
     // y = softmax(a2)
+    (*y) = (double **)malloc(sizeof(double *) * hidden_size);
+    for(i = 0; i < hidden_size; i++) {
+        (*y)[i] = (double *)malloc(sizeof(double) * output_size);
+        softmax((*y)[i], a2[i], output_size);
+    }
+}
 
+double loss(double **x, double **t)
+{
+    double *z;
+    double **y;
+    double d;
+    int i;
+
+    predict(&y, x, 100);
+
+    d = 0;
+    for(i = 0; i < 100; i++) {
+        d += cross_entropy_error(y[i], t[i], 10);
+    }
+
+    return d;
 }
 
 #if 0
-double loss(double *x, double *t)
-{
-    double *z;
-    double y[3];
 
-    predict(&z, x);
-    softmax(y, z, 3);
-    return cross_entropy_error(y, t, 3);
-}
+accuracy(x, t)
+
+numerical_gradient(x, t)
 
 double **get_W(void)
 {
