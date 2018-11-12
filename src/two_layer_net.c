@@ -134,10 +134,51 @@ double loss(double **x, double **t)
     return d;
 }
 
+static void argmax(double **a, double **x)
+{
+    int i;
+    int j;
+    double max;
+    int max_index;
+
+    *a = (double *)malloc(sizeof(double) * 100);
+
+    for(i = 0; i < 100; i++) {
+        max = 0;
+        max_index = -1;
+        for(j = 0; j < 10; j++) {
+            if(max < x[i][j]) {
+                max = x[i][j];
+                max_index = j;
+            }
+        }
+        (*a)[i] = max_index;
+    }
+}
+
+double accuracy(double **x, double **t)
+{
+    double **y;
+    double *_y;
+    double *_t;
+    int sum;
+    int i;
+
+    predict(&y, x, 100);
+    argmax(&_y, y);
+    argmax(&_t, t);
+
+    sum = 0;
+    for(i = 0; i < 100; i++) {
+        if(y[i] == t[i]) {
+            sum += 1;
+        }
+    }
+
+    return (double)sum / 100;
+}
+
 #if 0
-
-accuracy(x, t)
-
 numerical_gradient(x, t)
 
 double **get_W(void)
