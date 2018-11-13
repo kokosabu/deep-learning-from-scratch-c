@@ -178,9 +178,12 @@ double accuracy(double **x, double **t)
     return (double)sum / 100;
 }
 
-#if 0
-numerical_gradient(x, t)
+void numerical_gradient(double ***grads, double **x, double **t)
+{
+//void numerical_gradient(double **grad, double (*f)(double *), double *x, size_t s)
+}
 
+#if 0
 double **get_W(void)
 {
     return W;
