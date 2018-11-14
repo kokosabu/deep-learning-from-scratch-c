@@ -180,7 +180,12 @@ double accuracy(double **x, double **t)
 
 void numerical_gradient(double ***grads, double **x, double **t)
 {
-//void numerical_gradient(double **grad, double (*f)(double *), double *x, size_t s)
+    double **g_W1;
+    double *g_b1;
+    double **g_W2;
+    double *g_b2;
+    //(*grads)[0]
+    numerical_gradient(&g_b1, double (*f)(double *), b1, hidden_size);
 }
 
 #if 0
