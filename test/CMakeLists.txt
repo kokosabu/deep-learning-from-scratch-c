@@ -36,3 +36,12 @@ add_library(test_simple_net SHARED test-simple_net.c
 target_include_directories(test_simple_net PUBLIC ${CUTTER_INCLUDE_DIRS})
 target_include_directories(test_simple_net PUBLIC ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(test_simple_net ${CUTTER_LIBRARIES})
+
+add_library(test_two_layer_net SHARED test-two_layer_net.c
+    ${CMAKE_SOURCE_DIR}/src/two_layer_net.c
+    ${CMAKE_SOURCE_DIR}/src/loss.c
+    ${CMAKE_SOURCE_DIR}/src/activation.c
+    ${CMAKE_SOURCE_DIR}/src/grad.c)
+target_include_directories(test_two_layer_net PUBLIC ${CUTTER_INCLUDE_DIRS})
+target_include_directories(test_two_layer_net PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(test_two_layer_net ${CUTTER_LIBRARIES})
