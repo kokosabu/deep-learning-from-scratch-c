@@ -178,14 +178,14 @@ double accuracy(double **x, double **t)
     return (double)sum / 100;
 }
 
-void numerical_gradient(double ***grads, double **x, double **t)
+void _numerical_gradient(double ***grads, double **x, double **t)
 {
     double **g_W1;
     double *g_b1;
     double **g_W2;
     double *g_b2;
     //(*grads)[0]
-    numerical_gradient(&g_b1, double (*f)(double *), b1, hidden_size);
+    //numerical_gradient(&g_b1, double (*f)(double *), b1, hidden_size);
 }
 
 #if 0
