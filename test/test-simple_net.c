@@ -38,8 +38,11 @@ void test_simple_net(void)
     cut_assert(loss(x, t) <= 0.92807);
 
     numerical_gradient(&grad, f, *W, 3);
-    printf("%f\n", grad[0]);
-    printf("%f\n", grad[1]);
-    printf("%f\n", grad[2]);
+    cut_assert(grad[0] >= 0.219247);
+    cut_assert(grad[0] <= 0.219248);
+    cut_assert(grad[1] >= 0.143562);
+    cut_assert(grad[1] <= 0.143563);
+    cut_assert(grad[2] >= -0.362811);
+    cut_assert(grad[2] <= -0.362810);
 }
 
