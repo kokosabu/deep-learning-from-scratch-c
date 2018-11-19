@@ -1,5 +1,5 @@
 #include <cutter.h>
-#include <simple_net.h>
+#include <two_layer_net.h>
 #include <grad.h>
 
 double x[] = {0.6, 0.9};
@@ -16,7 +16,7 @@ void test_simple_net(void)
     double *grad;
     double *p;
 
-    TwoLayerNet();
+    TwoLayerNet(784, 100, 10, 0.01);
 
     //simpleNet();
     //W = get_W();
