@@ -15,8 +15,20 @@ void test_simple_net(void)
     double **W;
     double *grad;
     double *p;
+    double **x;
+    int i;
+    int j;
 
     TwoLayerNet(784, 100, 10, 0.01);
+
+    srand((unsigned int)time(NULL));
+    x = (double **)malloc(sizeof(double *) * 100);
+    for(i = 0; i < 100; i++) {
+        x[i] = (double *)malloc(sizeof(double) * 784);
+        for(j = 0; j < 784; j++) {
+            x[i][j] = (rand() / (double)RAND_MAX);
+        }
+    }
 
     //simpleNet();
     //W = get_W();
