@@ -1,21 +1,22 @@
 #include <cutter.h>
 #include <two_layer_net.h>
 #include <grad.h>
+#include <time.h>
 
-double x[] = {0.6, 0.9};
-double t[] = {0, 0, 1};
+//double x[] = {0.6, 0.9};
+//double t[] = {0, 0, 1};
 
+/*
 static double f(double *w)
 {
     return loss(x, t);
 }
+*/
 
 void test_simple_net(void)
 {
-    double **W;
-    double *grad;
-    double *p;
     double **x;
+    double **y;
     int i;
     int j;
 
@@ -29,6 +30,8 @@ void test_simple_net(void)
             x[i][j] = (rand() / (double)RAND_MAX);
         }
     }
+
+    predict(&y, x, 100);
 
     //simpleNet();
     //W = get_W();
