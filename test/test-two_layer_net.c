@@ -17,6 +17,7 @@ void test_simple_net(void)
 {
     double **x;
     double **y;
+    double **t;
     int i;
     int j;
 
@@ -33,6 +34,13 @@ void test_simple_net(void)
 
     predict(&y, x, 100);
 
+    t = (double **)malloc(sizeof(double *) * 100);
+    for(i = 0; i < 100; i++) {
+        t[i] = (double *)malloc(sizeof(double) * 10);
+        for(j = 0; j < 10; j++) {
+            t[i][j] = (rand() / (double)RAND_MAX);
+        }
+    }
     //simpleNet();
     //W = get_W();
 
