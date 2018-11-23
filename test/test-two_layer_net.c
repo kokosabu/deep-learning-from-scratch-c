@@ -41,6 +41,7 @@ void test_simple_net(void)
             t[i][j] = (rand() / (double)RAND_MAX);
         }
     }
+
     //simpleNet();
     //W = get_W();
 
