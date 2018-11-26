@@ -56,13 +56,11 @@ int main()
 
     TwoLayerNet(784, 50, 10, 0.01);
 
-    fprintf(stderr, "ERROR1\n");
     x_batch = (uint8_t **)malloc(sizeof(uint8_t *) * batch_size);
     for(i = 0; i < batch_size; i++) {
         x_batch[i] = (uint8_t *)malloc(sizeof(uint8_t) * 784);
     }
     t_batch = (uint8_t *)malloc(sizeof(uint8_t) * batch_size);
-    fprintf(stderr, "ERROR2\n");
 
     for(i = 0; i < 784; i++) {
         printf("[%d] %d\n", i, x_train_[0][i]);
@@ -72,10 +70,7 @@ int main()
         indexes = NULL;
         random_choice(&indexes, train_size, batch_size);
         for(j = 0; j < batch_size; j++) {
-            printf("[%d] %d\n", j, indexes[j]);
             for(k = 0; k < 784; k++) {
-                //printf("[%d] %f\n", k, x_train[indexes[j]][k]);
-                //printf("[%d] %f\n", k, x_train[0][k]);
                 x_batch[j][k] = x_train_[indexes[j]][k];
             }
             t_batch[j] = t_train[indexes[j]];
