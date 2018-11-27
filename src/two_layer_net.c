@@ -178,7 +178,7 @@ double accuracy(double **x, double **t)
     return (double)sum / 100;
 }
 
-void _numerical_gradient(double ***grads, double **x, double **t)
+void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t)
 {
     double **g_W1;
     double *g_b1;

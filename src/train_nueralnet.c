@@ -43,6 +43,7 @@ int main()
     int *indexes;
     uint8_t **x_batch;
     uint8_t *t_batch;
+    double **grads;
 
     read_images(&x_train_, &x_train,  "train-images-idx3-ubyte", 0);
     read_labels(&t_train, "train-labels-idx1-ubyte");
@@ -62,9 +63,6 @@ int main()
     }
     t_batch = (uint8_t *)malloc(sizeof(uint8_t) * batch_size);
 
-    for(i = 0; i < 784; i++) {
-        printf("[%d] %d\n", i, x_train_[0][i]);
-    }
     for(i = 0; i < iters_num; i++) {
         /* ミニバッチの取得 */
         indexes = NULL;
@@ -77,6 +75,7 @@ int main()
         }
 
         /* 勾配の計算 */
+        TwoLayerNet_numerical_gradient(&grads, x_batch, t_batch);
 
         /* パラメータの更新 */
 

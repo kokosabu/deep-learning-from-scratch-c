@@ -7,6 +7,6 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
 void predict(double ***y, double **x, size_t x_size);
 double loss(double **x, double **t);
 double accuracy(double **x, double **t);
-void _numerical_gradient(double ***grads, double **x, double **t);
+void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t);
 
 #endif
