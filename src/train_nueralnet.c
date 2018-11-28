@@ -44,6 +44,8 @@ int main()
     uint8_t **x_batch;
     uint8_t *t_batch;
     double **grads;
+    double l;
+    double *train_loss_list;
 
     read_images(&x_train_, &x_train,  "train-images-idx3-ubyte", 0);
     read_labels(&t_train, "train-labels-idx1-ubyte");
@@ -54,6 +56,8 @@ int main()
     iters_num = 10000;
     batch_size = 100;
     learning_rate = 0.01;
+
+    train_loss_list = (double *)malloc(sizeof(double) * iters_num);
 
     TwoLayerNet(784, 50, 10, 0.01);
 
@@ -80,6 +84,7 @@ int main()
         /* パラメータの更新 */
 
         /* 学習経過の記録 */
+        l = loss(x_batch, t_batch);
     }
 
     return 0;

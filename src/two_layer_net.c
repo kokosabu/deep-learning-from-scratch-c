@@ -117,7 +117,7 @@ void predict(double ***y, double **x, size_t x_size)
     }
 }
 
-double loss(double **x, double **t)
+double loss(double **x, double *t)
 {
     double *z;
     double **y;
@@ -128,7 +128,7 @@ double loss(double **x, double **t)
 
     d = 0;
     for(i = 0; i < 100; i++) {
-        d += cross_entropy_error(y[i], t[i], 10);
+        d += cross_entropy_error(y[i], t, 10);
     }
 
     return d;
