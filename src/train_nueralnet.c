@@ -41,10 +41,9 @@ int main()
     int j;
     int k;
     int *indexes;
-    uint8_t **x_batch;
-    uint8_t *t_batch;
+    double **x_batch;
+    double *t_batch;
     double **grads;
-    double l;
     double *train_loss_list;
 
     read_images(&x_train_, &x_train,  "train-images-idx3-ubyte", 0);
@@ -61,11 +60,11 @@ int main()
 
     TwoLayerNet(784, 50, 10, 0.01);
 
-    x_batch = (uint8_t **)malloc(sizeof(uint8_t *) * batch_size);
+    x_batch = (double **)malloc(sizeof(double *) * batch_size);
     for(i = 0; i < batch_size; i++) {
-        x_batch[i] = (uint8_t *)malloc(sizeof(uint8_t) * 784);
+        x_batch[i] = (double *)malloc(sizeof(double) * 784);
     }
-    t_batch = (uint8_t *)malloc(sizeof(uint8_t) * batch_size);
+    t_batch = (double *)malloc(sizeof(double) * batch_size);
 
     for(i = 0; i < iters_num; i++) {
         /* ミニバッチの取得 */
@@ -79,12 +78,15 @@ int main()
         }
 
         /* 勾配の計算 */
+        fprintf(stderr, "A\n");
         TwoLayerNet_numerical_gradient(&grads, x_batch, t_batch);
+        fprintf(stderr, "B\n");
 
         /* パラメータの更新 */
 
         /* 学習経過の記録 */
-        l = loss(x_batch, t_batch);
+        train_loss_list[i] = loss(x_batch, t_batch);
+        fprintf(stderr, "c\n");
     }
 
     return 0;
