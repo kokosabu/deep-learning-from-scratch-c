@@ -98,13 +98,16 @@ void predict(double ***y, double **x, size_t x_size)
 
     // a2 = np.dot(z1, W2) + b2
     // a2[100][10] = z1[100][100], W2[100][10], b2[10]
+    // a2[100][10] = z1[x_size][100], W2[hidden][output], b2[10]
     a2 = (double **)malloc(sizeof(double *) * hidden_size);
     for(i = 0; i < hidden_size; i++) {
         a2[i] = (double *)malloc(sizeof(double) * output_size);
         for(j = 0; j < output_size; j++) {
             a2[i][j] = 0;
             for(k = 0; k < x_size; k++) {
+#if 0
                 a2[i][j] += z1[j][k] * W2[k][i] + b2[j];
+#endif
             }
         }
     }
@@ -128,7 +131,7 @@ double loss(double **x, double *t)
 
     d = 0;
     for(i = 0; i < 100; i++) {
-        d += cross_entropy_error(y[i], t, 10);
+        //d += cross_entropy_error(y[i], t, 10);
     }
 
     return d;

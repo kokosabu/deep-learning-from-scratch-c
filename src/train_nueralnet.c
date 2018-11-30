@@ -52,7 +52,8 @@ int main()
     read_labels(&t_test,  "t10k-labels-idx1-ubyte");
 
     train_size = 60000;
-    iters_num = 10000;
+    //iters_num = 10000;
+    iters_num = 10;
     batch_size = 100;
     learning_rate = 0.01;
 
