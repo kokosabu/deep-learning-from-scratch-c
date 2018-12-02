@@ -3,6 +3,7 @@
 #include <time.h>
 #include <activation.h>
 #include <loss.h>
+#include <stdio.h>
 
 static double **W1;
 static double **W2;
@@ -124,11 +125,11 @@ double loss(double **x, double *t)
     double d;
     int i;
 
-    predict(&y, x, 100);
+    predict(&y, x, hidden_size);
 
     d = 0;
-    for(i = 0; i < 100; i++) {
-        //d += cross_entropy_error(y[i], t, 10);
+    for(i = 0; i < hidden_size; i++) {
+        d += cross_entropy_error(y[i], t, 10);
     }
 
     return d;

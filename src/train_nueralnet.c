@@ -53,7 +53,7 @@ int main()
 
     train_size = 60000;
     //iters_num = 10000;
-    iters_num = 10;
+    iters_num = 100;
     batch_size = 100;
     learning_rate = 0.01;
 
@@ -79,15 +79,12 @@ int main()
         }
 
         /* 勾配の計算 */
-        fprintf(stderr, "A\n");
         TwoLayerNet_numerical_gradient(&grads, x_batch, t_batch);
-        fprintf(stderr, "B\n");
 
         /* パラメータの更新 */
 
         /* 学習経過の記録 */
         train_loss_list[i] = loss(x_batch, t_batch);
-        fprintf(stderr, "c\n");
     }
 
     return 0;
