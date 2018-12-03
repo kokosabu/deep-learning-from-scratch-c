@@ -82,6 +82,7 @@ int main()
         TwoLayerNet_numerical_gradient(&grads, x_batch, t_batch);
 
         /* パラメータの更新 */
+        //W1_update(learning_rate, grads);
 
         /* 学習経過の記録 */
         train_loss_list[i] = loss(x_batch, t_batch);

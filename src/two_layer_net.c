@@ -9,6 +9,10 @@ static double **W1;
 static double **W2;
 static double *b1;
 static double *b2;
+static double **grad_W1;
+static double **grad_W2;
+static double *grad_b1;
+static double *grad_b2;
 static int input_size;
 static int hidden_size;
 static int output_size;
@@ -63,6 +67,17 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
     for(i = 0; i < output_size; i++) {
         b2[i] = weight_init_std * (rand() / (double)RAND_MAX);
     }
+
+    grad_W1 = (double **)malloc(sizeof(double *) * input_size);
+    for(i = 0; i < input_size; i++) {
+        grad_W1[i] = (double *)malloc(sizeof(double) * hidden_size);
+    }
+    grad_b1 = (double *)malloc(sizeof(double) * hidden_size);
+    grad_W2 = (double **)malloc(sizeof(double *) * hidden_size);
+    for(i = 0; i < hidden_size; i++) {
+        grad_W2[i] = (double *)malloc(sizeof(double) * output_size);
+    }
+    grad_b2 = (double *)malloc(sizeof(double) * output_size);
 }
 
 void predict(double ***y, double **x, size_t x_size)
