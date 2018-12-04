@@ -194,6 +194,32 @@ double accuracy(double **x, double **t)
     return (double)sum / 100;
 }
 
+void numerical_gradient2(double **grad, double (*f)(double **, double *), double **a, double *b, double *x, size_t s)
+{
+    double h;
+    double tmp_val;
+    double fxh1;
+    double fxh2;
+    int idx;
+
+    h = 1e-4;
+
+    *grad = (double *)malloc(sizeof(double) * s);
+
+    for(idx = 0; idx < s; idx++) {
+        tmp_val = x[idx];
+
+        x[idx] = tmp_val + h;
+        fxh1 = f(a, b);
+
+        x[idx] = tmp_val - h;
+        fxh2 = f(a, b);
+
+        (*grad)[idx] = (fxh1 - fxh2) / (2*h);
+        x[idx] = tmp_val;
+    }
+}
+
 void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t)
 {
     double **g_W1;
@@ -201,7 +227,9 @@ void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t)
     double **g_W2;
     double *g_b2;
     //(*grads)[0]
+
     //numerical_gradient(&g_b1, double (*f)(double *), b1, hidden_size);
+    numerical_gradient2(&g_b1, loss, x, t, b1, hidden_size);
 }
 
 #if 0
