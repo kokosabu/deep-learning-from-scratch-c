@@ -82,12 +82,14 @@ int main()
         TwoLayerNet_numerical_gradient(&grads, x_batch, t_batch);
 
         /* パラメータの更新 */
-        //get_b1();
-        //update_b1();
-        //W1_update(learning_rate, grads);
+        W1_update(learning_rate);
+        b1_update(learning_rate);
+        W2_update(learning_rate);
+        b2_update(learning_rate);
 
         /* 学習経過の記録 */
         train_loss_list[i] = loss(x_batch, t_batch);
+        printf("%d %f\n", i, train_loss_list[i]);
     }
 
     return 0;

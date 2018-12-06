@@ -275,8 +275,43 @@ double *get_grad_b2(void)
 
 void W1_update(double learning_rate)
 {
+    int i;
+    int j;
+
+    for(i = 0; i < input_size; i++) {
+        for(j = 0; j < hidden_size; j++) {
+            W1[i][j] -= grad_W1[i][j] * learning_rate;
+        }
+    }
 }
 
-void W2_update(double learning_rate);
-void b1_update(double learning_rate);
-void b2_update(double learning_rate);
+void W2_update(double learning_rate)
+{
+    int i;
+    int j;
+
+    for(i = 0; i < hidden_size; i++) {
+        for(j = 0; j < output_size; j++) {
+            W2[i][j] -= grad_W2[i][j] * learning_rate;
+        }
+    }
+}
+
+void b1_update(double learning_rate)
+{
+    int i;
+
+    for(i = 0; i < hidden_size; i++) {
+        b1[i] = grad_b1[i] * learning_rate;
+    }
+}
+
+void b2_update(double learning_rate)
+{
+    int i;
+
+    for(i = 0; i < output_size; i++) {
+        b2[i] -= grad_b2[i] * learning_rate;
+    }
+}
+
