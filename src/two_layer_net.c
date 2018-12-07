@@ -220,17 +220,42 @@ void numerical_gradient2(double **grad, double (*f)(double **, double *), double
     }
 }
 
+void numerical_gradient3(double ***grad, double (*f)(double **, double *), double **a, double *b, double **x, size_t s1, size_t s2)
+{
+    double h;
+    double tmp_val;
+    double fxh1;
+    double fxh2;
+    int idx;
+    int idx2;
+
+    h = 1e-4;
+
+    *grad = (double **)malloc(sizeof(double *) * s1);
+
+    for(idx = 0; idx < s1; idx++) {
+        (*grad)[idx] = (double *)malloc(sizeof(double) * s2);
+        for(idx2 = 0; idx2 < s2; idx2++) {
+            tmp_val = x[idx][idx2];
+
+            x[idx][idx2] = tmp_val + h;
+            fxh1 = f(a, b);
+
+            x[idx][idx2] = tmp_val - h;
+            fxh2 = f(a, b);
+
+            (*grad)[idx][idx2] = (fxh1 - fxh2) / (2*h);
+            x[idx][idx2] = tmp_val;
+        }
+    }
+}
+
 void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t)
 {
-    double **g_W1;
-    double *g_b1;
-    double **g_W2;
-    double *g_b2;
-    //(*grads)[0]
-
-    //numerical_gradient(&g_b1, double (*f)(double *), b1, hidden_size);
-    numerical_gradient2(&g_b1, loss, x, t, b1, hidden_size);
-    numerical_gradient2(&g_b2, loss, x, t, b2, hidden_size);
+    numerical_gradient3(&grad_W1, loss, x, t, W1, input_size, hidden_size);
+    numerical_gradient2(&grad_b1, loss, x, t, b1, hidden_size);
+    numerical_gradient3(&grad_W2, loss, x, t, W2, hidden_size, output_size);
+    numerical_gradient2(&grad_b2, loss, x, t, b2, output_size);
 }
 
 double **get_W1(void)
