@@ -53,7 +53,7 @@ int main()
 
     train_size = 60000;
     //iters_num = 10000;
-    iters_num = 10;
+    iters_num = 2;
     batch_size = 100;
     learning_rate = 0.01;
 

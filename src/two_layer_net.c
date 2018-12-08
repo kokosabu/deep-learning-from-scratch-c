@@ -103,7 +103,6 @@ void predict(double ***y, double **x, size_t x_size)
     }
 
     // z1 = sigmoid(a1)
-    // z1[100][100], a1[100][100]
     z1 = (double **)malloc(sizeof(double *) * x_size);
     for(i = 0; i < x_size; i++) {
         z1[i] = (double *)malloc(sizeof(double) * hidden_size);
@@ -113,7 +112,6 @@ void predict(double ***y, double **x, size_t x_size)
     }
 
     // a2 = np.dot(z1, W2) + b2
-    // a2[100][10] = z1[100][100], W2[100][10], b2[10]
     a2 = (double **)malloc(sizeof(double *) * hidden_size);
     for(i = 0; i < hidden_size; i++) {
         a2[i] = (double *)malloc(sizeof(double) * x_size);
