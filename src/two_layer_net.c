@@ -17,6 +17,7 @@ static int input_size;
 static int hidden_size;
 static int output_size;
 static double weight_init_std;
+static int loss_flag;
 
 static void activation_array(double dst[], double src[], double (*funcp)(double x), size_t s)
 {
@@ -78,6 +79,8 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
         grad_W2[i] = (double *)malloc(sizeof(double) * output_size);
     }
     grad_b2 = (double *)malloc(sizeof(double) * output_size);
+
+    loss_flag = 0;
 }
 
 void predict(double ***y, double **x, size_t x_size)
@@ -135,14 +138,16 @@ double loss(double **x, double *t)
 {
     double *z;
     double **y;
-    double d;
+    static double d;
     int i;
 
-    predict(&y, x, hidden_size);
+    if(loss_flag == 0) {
+        predict(&y, x, hidden_size);
 
-    d = 0;
-    for(i = 0; i < hidden_size; i++) {
-        d += cross_entropy_error(y[i], t, 10);
+        d = 0;
+        for(i = 0; i < hidden_size; i++) {
+            d += cross_entropy_error(y[i], t, 10);
+        }
     }
 
     return d;
@@ -250,6 +255,7 @@ void numerical_gradient3(double ***grad, double (*f)(double **, double *), doubl
 
 void TwoLayerNet_numerical_gradient(double ***grads, double **x, double *t)
 {
+    loss_flag = 0;
     numerical_gradient3(&grad_W1, loss, x, t, W1, input_size, hidden_size);
     numerical_gradient2(&grad_b1, loss, x, t, b1, hidden_size);
     numerical_gradient3(&grad_W2, loss, x, t, W2, hidden_size, output_size);
