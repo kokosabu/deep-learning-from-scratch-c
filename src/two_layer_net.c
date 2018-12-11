@@ -249,6 +249,10 @@ void numerical_gradient3(double ***grad, double (*f)(double **, double *), doubl
 
             (*grad)[idx][idx2] = (fxh1 - fxh2) / (2*h);
             x[idx][idx2] = tmp_val;
+
+            if(idx == 0 && idx2 == 0) {
+                printf("%f %f %f %f\n", x[idx][idx2], fxh1, fxh2, (*grad)[idx][idx2]);
+            }
         }
     }
 }
