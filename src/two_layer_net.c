@@ -141,14 +141,14 @@ double loss(double **x, double *t)
     static double d;
     int i;
 
-    if(loss_flag == 0) {
+    //if(loss_flag == 0) {
         predict(&y, x, hidden_size);
 
         d = 0;
         for(i = 0; i < hidden_size; i++) {
             d += cross_entropy_error(y[i], t, 10);
         }
-    }
+    //}
 
     return d;
 }
