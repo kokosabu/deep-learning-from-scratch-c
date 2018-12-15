@@ -215,13 +215,13 @@ void numerical_gradient2(double **grad, double (*f)(double **, double *), double
         x[idx] = tmp_val + h;
         fxh1 = f(a, b);
         if(idx == 0) {
-            printf("%f %f\n", x[idx], b1[idx]);
+            printf("2-1 %f %f\n", x[idx], b1[idx]);
         }
 
         x[idx] = tmp_val - h;
         fxh2 = f(a, b);
         if(idx == 0) {
-            printf("%f %f\n", x[idx], b1[idx]);
+            printf("2-2 %f %f\n", x[idx], b1[idx]);
         }
 
         (*grad)[idx] = (fxh1 - fxh2) / (2*h);
