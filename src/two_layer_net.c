@@ -205,7 +205,8 @@ void numerical_gradient2(double **grad, double (*f)(double **, double *), double
     double fxh2;
     int idx;
 
-    h = 1e-4;
+    //h = 1e-4;
+    h = 1e-1;
 
     *grad = (double *)malloc(sizeof(double) * s);
 
