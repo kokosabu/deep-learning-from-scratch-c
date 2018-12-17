@@ -111,6 +111,7 @@ void predict(double ***y, double **x, size_t x_size)
         z1[i] = (double *)malloc(sizeof(double) * hidden_size);
         for(j = 0; j < hidden_size; j++) {
             z1[i][j] = sigmoid(a1[i][j]);
+            printf("%d %d: %f\n", i, j, z1[i][j]);
         }
     }
 
@@ -205,8 +206,7 @@ void numerical_gradient2(double **grad, double (*f)(double **, double *), double
     double fxh2;
     int idx;
 
-    //h = 1e-4;
-    h = 1e-1;
+    h = 1e-4;
 
     *grad = (double *)malloc(sizeof(double) * s);
 
