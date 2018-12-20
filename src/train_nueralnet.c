@@ -10,7 +10,8 @@ static void random_choice(int **indexes, int train_size, int batch_size)
     int i;
 
     if(rand_flag == 0) {
-        srand((unsigned int)time(NULL));
+        //srand((unsigned int)time(NULL));
+        srand((unsigned int)0);
         rand_flag = 1;
     }
 

@@ -42,7 +42,8 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
 
     if(flag == 0) {
         flag = 1;
-        srand((unsigned int)time(NULL));
+        //srand((unsigned int)time(NULL));
+        srand((unsigned int)0);
     }
 
     W1 = (double **)malloc(sizeof(double *) * input_size);
