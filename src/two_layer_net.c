@@ -52,12 +52,14 @@ void TwoLayerNet(int _input_size, int _hidden_size, int _output_size, double _we
         for(j = 0; j < hidden_size; j++) {
             W1[i][j] = weight_init_std * (rand() / (double)RAND_MAX);
         }
+        printf("%d %d: %f\n", i, 0, W1[i][0]);
     }
 
     b1 = (double *)malloc(sizeof(double) * hidden_size);
     for(i = 0; i < hidden_size; i++) {
         b1[i] = weight_init_std * (rand() / (double)RAND_MAX);
     }
+    printf("%d: %f\n", 0, b1[i]);
 
     W2 = (double **)malloc(sizeof(double *) * hidden_size);
     for(i = 0; i < hidden_size; i++) {
