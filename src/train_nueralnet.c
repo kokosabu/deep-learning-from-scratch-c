@@ -70,7 +70,7 @@ int main()
     train_loss_list = (double *)malloc(sizeof(double) * iters_num);
 
     //TwoLayerNet(784, 50, 10, 0.01);
-    TwoLayerNet(784, 50, 10, 0.001);
+    TwoLayerNet(784, 50, 10, 0.01);
 
     x_batch = (double **)malloc(sizeof(double *) * batch_size);
     for(i = 0; i < batch_size; i++) {
